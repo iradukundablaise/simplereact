@@ -14,6 +14,7 @@ module.exports = {
         let query = squel
             .select()
             .from('omar.users')
+            .order('id')
             .toString();
 
         client.query(query, (err, results) => {
@@ -54,7 +55,11 @@ module.exports = {
     },
 
     find: (req, res) => {
-        let query = "SELECT * FROM omar.users WHERE id='"+req.params.id+"';";
+        let query = squel.select()
+            .from('omar.users')
+            .where('id='+req.params.id)
+            .order('id')
+            .toString();
         client.query(query, (err, results) => {
             let data = {}
             if(!err){
@@ -72,6 +77,7 @@ module.exports = {
 
     update: (req, res) => {
         let query = squel.update()
+            .table('omar.users')
             .set('nom', req.body.nom)
             .set('prenom', req.body.prenom)
             .set('telephone', req.body.telephone)
